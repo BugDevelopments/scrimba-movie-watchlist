@@ -14,9 +14,11 @@
     --search-button-text-color: #374151;
 
     --main-bg-color:#FFFFFF;
+
+    --feed-placeholder-color: #DFDDDD;
     
 
-    --film-icon-color: #DFDDDD;
+    --film-icon-color: #854f4f;
 }
 
 .dark-theme {
@@ -30,6 +32,8 @@
 
     --main-bg-color:  #121212;
 
+    --feed-placeholder-color: #2E2E2F;
+
     --film-icon-color: #2E2E2F;
 }
 
@@ -40,6 +44,9 @@ html, body {
 
 body {
     font-family: "Inter", sans-serif;
+    background: linear-gradient(135deg, bisque 0%, var(--bg-color) 100%);
+    background-repeat:  no-repeat;
+    height: 100vh;
 }
 
 .centered-wrapper {
@@ -53,8 +60,7 @@ header {
     width: 100%;
     height: 208px;
     /*background-image: url(images/background.png);*/
-    background-image: linear-gradient(rgba(28, 28, 28, 0.8), rgba(28, 28, 28, 0.8)), url(images/background.png); 
-    background-position: -50px -200px;
+    background-position: 0 -150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -98,12 +104,16 @@ header a {
     
 }
 
-form i {
+.search-bar:focus-within {
+    outline: 2px solid Highlight;
+}
+
+.glass-icon {
     box-sizing: content-box;
     font-size: 1rem;
     padding-left: 0.9375em;
     padding-right: 0.6875em;
-    color: var(--search-icon-color);
+    fill: var(--search-icon-color);
 }
 
 #search-input {
@@ -115,8 +125,13 @@ form i {
     border: none;
 }
 
+
 #search-input::placeholder {
     color: var(--search-text-color);
+}
+
+#search-input:focus {
+    outline: none;
 }
 
 #search-button {
@@ -130,9 +145,42 @@ form i {
     border-left: 1px solid var(--search-border-color);
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
+
+    transition: transform 150ms ease-out, filter 150ms ease-out;
+}
+
+#search-button:hover {
+    cursor: pointer;
+    filter: brightness(1.1);
+}
+
+#search-button:active {
+    transform: scale(0.97);
+    filter: brightness(0.9);
 }
 
 main {
     background-color: var(--main-bg-color);
-    height: 100vh;
+    height: 65vh;
+    border: 1px solid yellow;
+    text-align: center;
+}
+
+.feed-placeholder {
+    margin:0;
+    margin-top:  12.25em;
+    color: var(--feed-placeholder-color);
+}
+
+.feed-placeholder-text {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-top: 0.25em;
+}
+
+.feed-placeholder svg {
+    width: 4.375em;
+}
+.feed-placeholder path {
+    fill: var(--feed-placeholder-color);
 }
