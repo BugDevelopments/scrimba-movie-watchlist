@@ -61,6 +61,7 @@ header {
     height: 208px;
     /*background-image: url(images/background.png);*/
     background-image: linear-gradient(rgba(28, 28, 28, 0.8), rgba(28, 28, 28, 0.8)), url(images/background.png); 
+    background-size: 100%;
     background-position: 0 -150px;
     display: flex;
     flex-direction: column;
