@@ -15,6 +15,7 @@
     --movie-data-color: #111827;
     --movie-plot-color: #6B7280;
     --movie-card-divider: #E5E7EB;
+    --movie-title-color: #000000;
     
     --main-bg-color:#FFFFFF;
     
@@ -36,6 +37,8 @@
     --movie-plot-color: #A5A5A5;
     --movie-card-divider: #2C2C2C;
     --main-bg-color:  #121212;
+    --movie-title-color: #ffffff;
+    
 
     --feed-placeholder-color: #2E2E2F;
 
@@ -169,20 +172,21 @@ header a {
 
 main {
     background-color: var(--main-bg-color);
-    /* height: 65vh; */
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 40px;
-
+    min-height: calc(100vh - 208px - 50px); /* Höhe abzüglich Header und Footer */
 }
 
 .feed-placeholder {
     margin:0;
     margin-top:  12.25em;
+    height: 100px;
     color: var(--feed-placeholder-color);
 }
+
 
 .feed-placeholder-text {
     font-size: 1.125rem;
@@ -203,7 +207,7 @@ main {
     padding: 21px 0;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: start;
     align-items: start;
     gap: 21px;
     width: 462px; 
@@ -212,6 +216,11 @@ main {
 
 .poster {
     width: 100px;
+    height: 150px;
+    object-fit: cover;
+    background-color: #eee;
+    border-radius: 2.33px;
+
 }
 
 .card-header {
@@ -226,6 +235,8 @@ main {
 .title {
     font-size: 1.125rem;
     font-weight: 500;
+    color: var(--movie-title-color);
+    text-align: left;
 }
 
 .card-rating {
@@ -280,5 +291,10 @@ main {
     padding: 0;
     margin: 0;
     margin-top: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    overflow: hidden;
 
 }
