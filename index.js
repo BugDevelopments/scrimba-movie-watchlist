@@ -17,152 +17,7 @@
 // Example: To return all movies, series and games with "Blade Runner" in the title:
 // https://www.omdbapi.com/?s=Blade+Runner&apikey=74fc7f86 
 //  
-// Example Response:
-/* 
-{
-  "Search": [
-    {
-      "Title": "Blade Runner",
-      "Year": "1982",
-      "imdbID": "tt0083658",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BOWQ4YTBmNTQtMDYxMC00NGFjLTkwOGQtNzdhNmY1Nzc1MzUxXkEyXkFqcGc@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Blade Runner 2049",
-      "Year": "2017",
-      "imdbID": "tt1856101",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Blade Runner: Black Out 2022",
-      "Year": "2017",
-      "imdbID": "tt7428594",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BZGNiNmNiMTctMDI4OS00OWYxLWE4ZWEtZjFkZjU4ZmY5YzEyXkEyXkFqcGdeQXVyMzgxODM4NjM@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Blade Runner: Black Lotus",
-      "Year": "2021–2022",
-      "imdbID": "tt9359796",
-      "Type": "series",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BZDYzYWI2NzYtOWNkMS00YzA4LThlNWEtNmMxNDIwYmVmYTgzXkEyXkFqcGc@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Dangerous Days: Making Blade Runner",
-      "Year": "2007",
-      "imdbID": "tt1080585",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BNzI2NjU0MjY4MF5BMl5BanBnXkFtZTgwMjM0NDQzNjE@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Blade Runner",
-      "Year": "1997",
-      "imdbID": "tt0126817",
-      "Type": "game",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BYWRkYjczZWMtN2Q5NS00YWFmLTk3M2MtNWUwNWRjYzdkMjZhXkEyXkFqcGdeQXVyNjExODE1MDc@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Oscar Pistorius: Blade Runner Killer",
-      "Year": "2017",
-      "imdbID": "tt7445510",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BNjZiMjYwMTMtNjY1Yi00MGI5LTk1MGUtOTdhMDAzMWJjMjBhXkEyXkFqcGc@._V1_SX300.jpg"
-    },
-    {
-      "Title": "On the Edge of 'Blade Runner'",
-      "Year": "2000",
-      "imdbID": "tt0281011",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BMGRhY2RlMWYtOGQ4Yi00NmMxLWJiZDUtZmRkZjYzYWRlNmExXkEyXkFqcGdeQXVyMTQxNzE3ODA3._V1_SX300.jpg"
-    },
-    {
-      "Title": "Phenomenon Blade Runner",
-      "Year": "2021",
-      "imdbID": "tt14730032",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BMmQ1NDA5YWMtMGE5NC00MTU1LTkxNTMtZThkNDg4ZTNjODUzXkEyXkFqcGc@._V1_SX300.jpg"
-    },
-    {
-      "Title": "Phenomenon Blade Runner",
-      "Year": "2021",
-      "imdbID": "tt14730032",
-      "Type": "movie",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BMmQ1NDA5YWMtMGE5NC00MTU1LTkxNTMtZThkNDg4ZTNjODUzXkEyXkFqcGc@._V1_SX300.jpg"
-    }
-  ],
-  "totalResults": "37",
-  "Response": "True"
-}
 
-*/
-
-/* Example Response for details
-https://www.omdbapi.com/?apikey=74fc7f86&i=tt1856101&plot=full
-
-{
-  "Title": "Blade Runner 2049",
-  "Year": "2017",
-  "Rated": "R",
-  "Released": "06 Oct 2017",
-  "Runtime": "164 min",
-  "Genre": "Action, Drama, Mystery",
-  "Director": "Denis Villeneuve",
-  "Writer": "Hampton Fancher, Michael Green, Philip K. Dick",
-  "Actors": "Harrison Ford, Ryan Gosling, Ana de Armas",
-  "Plot": "Thirty years after the events of Blade Runner (1982), a new Blade Runner, L.A.P.D. Officer \"K\" (Ryan Gosling), unearths a long-buried secret that has the potential to plunge what's left of society into chaos. K's discovery leads him on a quest to find Rick Deckard (Harrison Ford), a former L.A.P.D. Blade Runner, who has been missing for thirty years.",
-  "Language": "English",
-  "Country": "United States, Canada, Spain",
-  "Awards": "Won 2 Oscars. 100 wins & 164 nominations total",
-  "Poster": "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SX300.jpg",
-  "Ratings": [
-    {
-      "Source": "Internet Movie Database",
-      "Value": "8.0/10"
-    },
-    {
-      "Source": "Rotten Tomatoes",
-      "Value": "88%"
-    },
-    {
-      "Source": "Metacritic",
-      "Value": "81/100"
-    }
-  ],
-  "Metascore": "81",
-  "imdbRating": "8.0",
-  "imdbVotes": "720,813",
-  "imdbID": "tt1856101",
-  "Type": "movie",
-  "DVD": "N/A",
-  "BoxOffice": "$92,071,675",
-  "Production": "N/A",
-  "Website": "N/A",
-  "Response": "True"
-}
-*/
-
-
-/* 
-  Search result:
-  data.Search[i].
-
- * Title
-  Year
-  Type
- * Poster
-  imdbID
-
-  Title lookup result:
-  data.
-  
-  Runtime
-  Genre7
-  Plot
-  Ratings[0].Value
-
-*/
 
 const testData = 
 [
@@ -325,7 +180,8 @@ const testData =
 ]
 const watchlist = JSON.parse(localStorage.getItem("myWatchlist")) || []
 const html = document.documentElement
-const apikey = '74fc7f86'
+//const apikey = '74fc7f86'
+const apikey = '9018b1f4'
 const movieFeedEl = document.getElementById("movie-feed")
 const feedPlaceHolderStartEl = document.getElementById("feed-placeholder-start")
 const feedPlaceHolderNotFoundEl = document.getElementById("feed-placeholder-not-found")
@@ -333,14 +189,17 @@ const notFoundMsgEl = document.getElementById("not-found-msg")
 const searchFormEl = document.getElementById("search-form")
 const headerH1El = document.querySelector('.header-h1')
 const watchlistLinkEl = document.getElementById('watchlist-link')
+const feedPlaceHolderWatchlistEmptyEl = document.getElementById('feed-placeholder-watchlist-empty')
 
 let isWatchList = false
 let searchResults = []
 
-
-
 //html.classList.toggle("dark-theme")
 
+
+/* searchResults = testData
+displaySearchResults(testData)
+*/
 
 searchFormEl.addEventListener("submit", e => {
   e.preventDefault()
@@ -354,7 +213,7 @@ document.addEventListener("click", event=>{
    handleReadMoreclick(event.target)
   }
 
-  if(event.target.matches('#watchlist-link')) {
+  if(event.target.matches('#watchlist-link') || event.target.closest('.placeholder-link')) {
     event.preventDefault()
     handleWatchlistLinkClick()
   }
@@ -365,17 +224,20 @@ document.addEventListener("click", event=>{
 
 })
 
-searchResults = testData
-displaySearchResults(testData)
-
 function handleCardButtonClick(movieIndex) {
   if(isWatchList) {
     watchlist.splice(movieIndex,1)
     displaySearchResults(watchlist)  
   } else {
-    watchlist.push(searchResults[movieIndex])
+    if(onWatchlist(searchResults[movieIndex])) {
+      const index = watchlist.findIndex(item=>item.imdbID===searchResults[movieIndex].imdbID)
+      watchlist.splice(index,1)
+    }
+    else {
+      watchlist.push(searchResults[movieIndex])
+    }
+    displaySearchResults(searchResults)  
   }
-
   localStorage.setItem("myWatchlist", JSON.stringify(watchlist))
 } 
 
@@ -384,24 +246,21 @@ function handleWatchlistLinkClick() {
     isWatchList = true
     headerH1El.textContent = "My Watchlist"
     watchlistLinkEl.textContent = "Search for movies"
-    searchFormEl.style.visibility = 'hidden'
+    searchFormEl.style.display = 'none'
     displaySearchResults(watchlist)
 
   } else {
     isWatchList = false
     headerH1El.textContent = "Find your film"
     watchlistLinkEl.textContent = "My Watchlist"
-    searchFormEl.style.visibility = 'visible'
+    searchFormEl.style.display = 'flex'
     displaySearchResults(searchResults)
   }
 }
 
 function handleReadMoreclick(btn) {
-  console.log("handling ", btn)
   const cardPlotEl = btn.closest('.card-plot')
-  console.log(cardPlotEl)
   const plotTextEl = cardPlotEl.querySelector('.plot-text')
-  console.log(plotTextEl)
 
   const fullText = btn.dataset.fulltext
   btn.dataset.fulltext = plotTextEl.textContent
@@ -422,15 +281,29 @@ function searchForMovies(searchTerm) {
 
   fetchMovies(searchTerm)
     .then(movies => {
+      searchResults = movies
       if(movies.length === 0) {
         updateUIForNoResults(searchTerm)
       } else {
-        searchResults = movies
         displaySearchResults(movies)
       }
 
     })
 
+}
+
+function updateUIforEmptyMovieList() {
+  if(isWatchList) {
+    feedPlaceHolderNotFoundEl.hidden = true
+    feedPlaceHolderStartEl.hidden = true
+    feedPlaceHolderWatchlistEmptyEl.hidden = false
+  } else {
+    feedPlaceHolderNotFoundEl.hidden = true
+    feedPlaceHolderStartEl.hidden = false
+    feedPlaceHolderWatchlistEmptyEl.hidden = true
+  }
+
+  console.log("updateUIforEmptyMovieLis:",feedPlaceHolderNotFoundEl.hidden,feedPlaceHolderStartEl.hidden,feedPlaceHolderWatchlistEmptyEl.hidden)
 }
 
 function updateUIForLoading() {
@@ -488,10 +361,16 @@ function fetchMovieDetails(movieId) {
 
 function displaySearchResults(searchResults) {
 
+  if(searchResults.length===0) {
+    movieFeedEl.innerHTML = ''
+    updateUIforEmptyMovieList()
+    return
+  }
+
   const feedHTMLArray = []
 
   searchResults.forEach((movieItem, movieIndex) => {
-    const cardButtonDiv = isWatchList ? 
+    const cardButtonDiv = onWatchlist(movieItem) ? 
       `
     <div class="card-button" data-movie-index="${movieIndex}">
     <svg class="add-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -544,6 +423,7 @@ function displaySearchResults(searchResults) {
   // hide placeholder
   feedPlaceHolderStartEl.hidden = true
   feedPlaceHolderNotFoundEl.hidden = true
+  feedPlaceHolderWatchlistEmptyEl.hidden = true
 
   // display movieFeed
   movieFeedEl.innerHTML = feedHTMLArray.join(' ')
@@ -641,3 +521,11 @@ function escapeAttr(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }
+
+function onWatchlist(movie) {
+  return watchlist.find(item=>item.imdbID == movie.imdbID)
+}
+
+// <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+// <path d="M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM404.4 276.7L324.4 404.7C320.2 411.4 313 415.6 305.1 416C297.2 416.4 289.6 412.8 284.9 406.4L236.9 342.4C228.9 331.8 231.1 316.8 241.7 308.8C252.3 300.8 267.3 303 275.3 313.6L302.3 349.6L363.7 251.3C370.7 240.1 385.5 236.6 396.8 243.7C408.1 250.8 411.5 265.5 404.4 276.8z"/>
+// </svg>
