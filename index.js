@@ -323,10 +323,7 @@ const testData =
         ]
     }
 ]
-
-const watchlist = []
-let searchResults = []
-
+const watchlist = JSON.parse(localStorage.getItem("myWatchlist")) || []
 const html = document.documentElement
 const apikey = '74fc7f86'
 const movieFeedEl = document.getElementById("movie-feed")
@@ -334,11 +331,13 @@ const feedPlaceHolderStartEl = document.getElementById("feed-placeholder-start")
 const feedPlaceHolderNotFoundEl = document.getElementById("feed-placeholder-not-found")
 const notFoundMsgEl = document.getElementById("not-found-msg")
 const searchFormEl = document.getElementById("search-form")
-
 const headerH1El = document.querySelector('.header-h1')
 const watchlistLinkEl = document.getElementById('watchlist-link')
 
 let isWatchList = false
+let searchResults = []
+
+
 
 //html.classList.toggle("dark-theme")
 
@@ -375,12 +374,9 @@ function handleCardButtonClick(movieIndex) {
     displaySearchResults(watchlist)  
   } else {
     watchlist.push(searchResults[movieIndex])
-
   }
 
-  console.log('clicked no.', movieIndex)
-  console.log('watchlist:', watchlist)
-
+  localStorage.setItem("myWatchlist", JSON.stringify(watchlist))
 } 
 
 function handleWatchlistLinkClick() {
@@ -553,7 +549,7 @@ function displaySearchResults(searchResults) {
   movieFeedEl.innerHTML = feedHTMLArray.join(' ')
   // clamp plot-description paragraphs to 3 lines
   const plotsArray = movieFeedEl.querySelectorAll('.card-plot')
-  setTimeout(() => plotsArray.forEach(p=>clampParagraphToLines(p)), 400)
+  setTimeout(() => plotsArray.forEach(p=>clampParagraphToLines(p)), 200)
   
 }
 
