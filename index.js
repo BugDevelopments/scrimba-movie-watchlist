@@ -330,9 +330,11 @@ const apikey = '74fc7f86'
 const lastSearchResults = []
 const movieFeed = []
 const movieFeedEl = document.getElementById("movie-feed")
-const feedPlaceHolderEl = document.getElementById("feed-placeholder")
+const feedPlaceHolderStartEl = document.getElementById("feed-placeholder-start")
+const feedPlaceHolderNotFoundEl = document.getElementById("feed-placeholder-not-found")
+const notFoundMsgEl = document.getElementById("not-found-msg")
 const searchFormEl = document.getElementById("search-form")
-console.log(searchFormEl)
+
 
 //html.classList.toggle("dark-theme")
 
@@ -341,19 +343,73 @@ searchFormEl.addEventListener("submit", e => {
   e.preventDefault()
   const formData = new FormData(searchFormEl)
   const searchTerm = formData.get("search-term")
-  fetchMovies(searchTerm).then(results => {
-    console.log("Resultate:", results);
-    displaySearchResults(results);
-  });
+  searchForMovies(searchTerm)
 })
 
+document.addEventListener("click", event=>{
+  if(event.target.dataset.fulltext) {
+   handleReadMoreclick(event.target)
+  }
+})
 
-/* This function calls the omdb api with 'searchTerm' as a search Term and stores the found entries in the array lastSearchResults 
- * An entry has the keys
+displaySearchResults(testData)
+
+function handleReadMoreclick(btn) {
+  console.log("handling ", btn)
+  const cardPlotEl = btn.closest('.card-plot')
+  console.log(cardPlotEl)
+  const plotTextEl = cardPlotEl.querySelector('.plot-text')
+  console.log(plotTextEl)
+
+  const fullText = btn.dataset.fulltext
+  btn.dataset.fulltext = plotTextEl.textContent
+  plotTextEl.textContent = fullText
+
+  if(btn.textContent === "Read more") {
+    btn.textContent = "Less"
+  } else {
+    btn.textContent = "Read more"
+  }
+
+}
+
+/* This function is called when the user presses the search button.*/
+function searchForMovies(searchTerm) {
+  // show a loading spinner, etc.
+  updateUIForLoading()
+
+  fetchMovies(searchTerm)
+    .then(movies => {
+      if(movies.length === 0) {
+        updateUIForNoResults(searchTerm)
+      } else {
+        displaySearchResults(movies)
+      }
+
+    })
+
+}
+
+function updateUIForLoading() {
+  console.log("Loading...")
+}
+
+function updateUIForNoResults(searchTerm) {
+  movieFeedEl.innerHTML = ""
+  notFoundMsgEl.textContent = `Unable to find any movie with the term "${searchTerm}" in the title.`
+  feedPlaceHolderStartEl.hidden = true
+  feedPlaceHolderNotFoundEl.hidden = false
+}
+
+/* This function calls the omdb api with 'searchTerm' as a search Term and returns a promise that resolves to an array with the search results. 
+ * If no results were found an empty array is returned.
+ * An entry of that array has the keys
  * Title , Poster, Ratings, imdbID, Runtime, Genre, Plot
  */
 function fetchMovies(searchTerm) {
-  return fetch(`https://www.omdbapi.com/?apikey=${apikey}&s=${encodeURIComponent(searchTerm)}`)
+  const url = `https://www.omdbapi.com/?apikey=${apikey}&s=${encodeURIComponent(searchTerm)}`
+
+  return fetch(url)
     .then(res => res.json())
     .then(data => {
       if (data && data.Response === "True") {
@@ -368,7 +424,7 @@ function fetchMovies(searchTerm) {
         );
         return Promise.all(detailPromises);
       } else {
-        console.log('Found nothing');
+        // if any error occurs or no search results
         return [];
       }
     });
@@ -385,8 +441,6 @@ function fetchMovieDetails(movieId) {
             return {Runtime, Genre, Plot, Ratings}
           })   
 }
-
-//fetchMovies("Das Boot")
 
 
 function displaySearchResults(searchResults) {
@@ -424,16 +478,23 @@ function displaySearchResults(searchResults) {
               </div>
           </div>
           <p class="card-plot">
-              ${movieItem.Plot}
+          <span class="plot-text">${movieItem.Plot}</span>
+          <button class="read-more-btn" data-fulltext='${escapeAttr(movieItem.Plot)}'>Read more</button>
           </p>
-      </div>
+    </div>
   </article>`
     feedHTMLArray.push(movieCardHTML)
   })
   // hide placeholder
-  feedPlaceHolderEl.hidden = true;
+  feedPlaceHolderStartEl.hidden = true
+  feedPlaceHolderNotFoundEl.hidden = true
+
   // display movieFeed
   movieFeedEl.innerHTML = feedHTMLArray.join(' ')
+  // clamp plot-description paragraphs to 3 lines
+  const plotsArray = movieFeedEl.querySelectorAll('.card-plot')
+  setTimeout(() => plotsArray.forEach(p=>clampParagraphToLines(p)), 400)
+  
 }
 
 /* returns the average score from the given array of ratings or N/A if it is empty */
@@ -463,10 +524,64 @@ function getRatings(ratings) {
   return (total / count).toFixed(1);
 }
 
+/* clamping functions */
+function getLineHeightPx(el) {
+    const cs = getComputedStyle(el)
+    let lh = cs.lineHeight
+    return parseFloat(lh) // "48px" -> 48
+}
 
-// fetchMovies("Putin").then(results => {
-//   console.log("Resultate:", results);
-//   displaySearchResults(results);
-// });
+function clampParagraphToLines(p, maxLines = 3) {
+  const textSpan = p.querySelector('.plot-text')
+  const btn = p.querySelector('.read-more-btn')
 
-// displaySearchResults(testData)
+  if(!textSpan || !btn) return;
+
+  const original = textSpan.textContent.trim()
+  if (!original) {
+    btn.style.display = 'none'
+    return;
+  }
+
+  const lineHeight = getLineHeightPx(p)
+  const allowed = lineHeight * maxLines
+
+  btn.style.display = 'none'
+  if (p.getBoundingClientRect().height <= allowed) {
+    return;
+  }
+  btn.style.display = 'inline'
+
+  // binary search over the text length
+  let lo=0, hi=original.length, best=0
+  while(lo <= hi) {
+    const mid = (lo + hi) >> 1
+
+    textSpan.textContent = original.slice(0,mid) + '…'
+
+    const h = p.getBoundingClientRect().height
+
+    if (h <= allowed) {
+      best = mid
+      lo = mid + 1
+    } else {
+      hi = mid - 1
+    }
+  }
+
+  textSpan.textContent = original.slice(0,best) + '…'
+}
+
+function clampAll() {
+  const plotsArray = movieFeedEl.querySelectorAll('.card-plot')
+  plotsArray.forEach(p=>clampParagraphToLines(p))
+}
+
+function escapeAttr(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;') 
+    .replace(/'/g, '&#39;')  
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
