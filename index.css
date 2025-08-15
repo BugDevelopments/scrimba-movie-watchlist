@@ -284,6 +284,7 @@ main {
     gap: 5px;
 
     letter-spacing: 0.3px;
+    cursor: pointer;
 }
 
 .card-plot {

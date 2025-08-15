@@ -324,17 +324,21 @@ const testData =
     }
 ]
 
+const watchlist = []
+let searchResults = []
 
 const html = document.documentElement
 const apikey = '74fc7f86'
-const lastSearchResults = []
-const movieFeed = []
 const movieFeedEl = document.getElementById("movie-feed")
 const feedPlaceHolderStartEl = document.getElementById("feed-placeholder-start")
 const feedPlaceHolderNotFoundEl = document.getElementById("feed-placeholder-not-found")
 const notFoundMsgEl = document.getElementById("not-found-msg")
 const searchFormEl = document.getElementById("search-form")
 
+const headerH1El = document.querySelector('.header-h1')
+const watchlistLinkEl = document.getElementById('watchlist-link')
+
+let isWatchList = false
 
 //html.classList.toggle("dark-theme")
 
@@ -350,9 +354,51 @@ document.addEventListener("click", event=>{
   if(event.target.dataset.fulltext) {
    handleReadMoreclick(event.target)
   }
+
+  if(event.target.matches('#watchlist-link')) {
+    event.preventDefault()
+    handleWatchlistLinkClick()
+  }
+
+  if(event.target.closest('.card-button')) {
+    handleCardButtonClick(event.target.closest('.card-button').dataset.movieIndex)
+  }
+
 })
 
+searchResults = testData
 displaySearchResults(testData)
+
+function handleCardButtonClick(movieIndex) {
+  if(isWatchList) {
+    watchlist.splice(movieIndex,1)
+    displaySearchResults(watchlist)  
+  } else {
+    watchlist.push(searchResults[movieIndex])
+
+  }
+
+  console.log('clicked no.', movieIndex)
+  console.log('watchlist:', watchlist)
+
+} 
+
+function handleWatchlistLinkClick() {
+  if(headerH1El.textContent === "Find your film") {
+    isWatchList = true
+    headerH1El.textContent = "My Watchlist"
+    watchlistLinkEl.textContent = "Search for movies"
+    searchFormEl.style.visibility = 'hidden'
+    displaySearchResults(watchlist)
+
+  } else {
+    isWatchList = false
+    headerH1El.textContent = "Find your film"
+    watchlistLinkEl.textContent = "My Watchlist"
+    searchFormEl.style.visibility = 'visible'
+    displaySearchResults(searchResults)
+  }
+}
 
 function handleReadMoreclick(btn) {
   console.log("handling ", btn)
@@ -383,6 +429,7 @@ function searchForMovies(searchTerm) {
       if(movies.length === 0) {
         updateUIForNoResults(searchTerm)
       } else {
+        searchResults = movies
         displaySearchResults(movies)
       }
 
@@ -447,7 +494,25 @@ function displaySearchResults(searchResults) {
 
   const feedHTMLArray = []
 
-  searchResults.forEach(movieItem => {
+  searchResults.forEach((movieItem, movieIndex) => {
+    const cardButtonDiv = isWatchList ? 
+      `
+    <div class="card-button" data-movie-index="${movieIndex}">
+    <svg class="add-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="add-icon-path" fill-rule="evenodd" clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM5 7C4.44772 7 4 7.44772 4 8C4 8.55228 4.44772 9 5 9H11C11.5523 9 12 8.55229 12 8C12 7.44772 11.5523 7 11 7H5Z" fill="#111827"/>
+    </svg>
+    Remove
+    </div>
+      ` :
+      `
+    <div class="card-button" data-movie-index="${movieIndex}">
+      <svg class="add-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="add-icon-path" fill-rule="evenodd" clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM9 5C9 4.44772 8.55228 4 8 4C7.44772 4 7 4.44772 7 5V7H5C4.44772 7 4 7.44771 4 8C4 8.55228 4.44772 9 5 9H7V11C7 11.5523 7.44772 12 8 12C8.55228 12 9 11.5523 9 11V9H11C11.5523 9 12 8.55228 12 8C12 7.44772 11.5523 7 11 7H9V5Z" fill="#111827"/>
+      </svg>
+    Watchlist
+    </div>
+      `
+
     const movieCardHTML = `
       <article class="movie-card">
       <img class="poster" src="${movieItem.Poster}">
@@ -470,12 +535,7 @@ function displaySearchResults(searchResults) {
                   ${movieItem.Genre}
               </div>
               
-              <div class="card-button">
-                  <svg class="add-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path class="add-icon-path" fill-rule="evenodd" clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM9 5C9 4.44772 8.55228 4 8 4C7.44772 4 7 4.44772 7 5V7H5C4.44772 7 4 7.44771 4 8C4 8.55228 4.44772 9 5 9H7V11C7 11.5523 7.44772 12 8 12C8.55228 12 9 11.5523 9 11V9H11C11.5523 9 12 8.55228 12 8C12 7.44772 11.5523 7 11 7H9V5Z" fill="#111827"/>
-                  </svg>
-                  Watchlist
-              </div>
+              ${cardButtonDiv}
           </div>
           <p class="card-plot">
           <span class="plot-text">${movieItem.Plot}</span>
