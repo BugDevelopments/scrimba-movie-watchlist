@@ -256,7 +256,7 @@ function displaySearchResults(searchResults) {
     const movieCardHTML = `
       <article class="movie-card">
         ${bookmark}  
-      <img class="poster" src="${movieItem.Poster}">
+      <img class="poster" src="${movieItem.Poster}" onerror="this.onerror=null; this.src='./images/missing_poster.webp';">
       <div class="card-description-cnt">
           <div class="card-header">
               <h2 class="title">${movieItem.Title}</h2>
