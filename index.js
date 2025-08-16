@@ -274,7 +274,6 @@ function displaySearchResults(searchResults) {
               <div class="card-genre">
                   ${movieItem.Genre}
               </div>
-              
               ${cardButtonDiv}
           </div>
           <p class="card-plot">
@@ -290,13 +289,45 @@ function displaySearchResults(searchResults) {
   feedPlaceHolderNotFoundEl.hidden = true
   feedPlaceHolderWatchlistEmptyEl.hidden = true
 
+  renderFeed(feedHTMLArray)
   // display movieFeed
-  movieFeedEl.innerHTML = feedHTMLArray.join(' ')
+  //movieFeedEl.style.visibility = "hidden"
+  //movieFeedEl.innerHTML = feedHTMLArray.join(' ')
   // clamp plot-description paragraphs to 3 lines
-  const plotsArray = movieFeedEl.querySelectorAll('.card-plot')
-  setTimeout(() => plotsArray.forEach(p=>clampParagraphToLines(p)), 200)
+  //const plotsArray = movieFeedEl.querySelectorAll('.card-plot')
+  //setTimeout(() =>  { plotsArray.forEach(p=>clampParagraphToLines(p)); movieFeedEl.style.visibility = "visible" },200)
   
+ }
+
+// wait until the next paint (double rAF to be extra safe)
+const nextPaint = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+
+async function renderFeed(feedHTMLArray) {
+  movieFeedEl.style.visibility = "hidden";
+  movieFeedEl.innerHTML = feedHTMLArray.join(" ");
+
+  // Let DOM & CSS apply
+  await nextPaint();
+
+  // If web fonts are in play, wait for them (prevents reflow after text renders)
+  if (document.fonts?.status !== "loaded") {
+    try { await document.fonts.ready; } catch {}
+    await nextPaint();
+  }
+
+  // If images can affect layout, wait for their decode (no network block if cached)
+  const imgs = movieFeedEl.querySelectorAll("img");
+  await Promise.all([...imgs].map(img => img.decode?.().catch(() => {}) ?? Promise.resolve()));
+  await nextPaint();
+
+  // Now clamp with stable layout
+  movieFeedEl.querySelectorAll(".card-plot")
+    .forEach(p => clampParagraphToLines(p));
+
+  movieFeedEl.style.visibility = "visible";
 }
+
+
 
 /* returns the average score from the given array of ratings or N/A if it is empty */
 function getRatings(ratings) {
