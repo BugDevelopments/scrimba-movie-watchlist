@@ -219,6 +219,7 @@ main {
     align-items: start;
     gap: 21px;
     width: 462px; 
+    position: relative;
     /* width: 60vw; */
 } 
 
@@ -381,4 +382,10 @@ main {
 
 .placeholder-link:hover {
     text-decoration: underline;
+}
+
+.bookmark {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
