@@ -32,9 +32,16 @@ const headerH1El = document.querySelector('.header-h1')
 const watchlistLinkEl = document.getElementById('watchlist-link')
 const feedPlaceHolderWatchlistEmptyEl = document.getElementById('feed-placeholder-watchlist-empty')
 const themeToggleEl = document.getElementById('theme-toggle')
+const numResultsDivEl = document.getElementById('num-results-div')
+const numResultsPEl = document.getElementById('num-results-p')
+const moreResultsBtnEl = document.getElementById('more-results-btn')
+
 
 let isWatchList = false
 let searchResults = []
+let searchTerm = ""
+let totalSearchResults = 0
+let page=1
 
 //html.classList.toggle("dark-theme")
 
@@ -66,8 +73,15 @@ document.addEventListener("click", event=>{
   if(event.target.matches('#theme-toggle')) {
     handleThemeToggleClick()
   }
+  if(event.target.matches('#more-results-btn')) {
+    handleMoreResultsBtnClick()
+  }
 
 })
+
+function handleMoreResultsBtnClick() {
+  nextPage(searchTerm)
+}
 
 function handleThemeToggleClick() {
     html.classList.toggle("dark")
@@ -123,6 +137,8 @@ function handleWatchlistLinkClick() {
     headerH1El.textContent = "My Watchlist"
     watchlistLinkEl.textContent = "Search for movies"
     searchFormEl.style.display = 'none'
+    numResultsPEl.hidden = true
+    moreResultsBtnEl.hidden = true
     displaySearchResults(watchlist)
 
   } else {
@@ -150,10 +166,22 @@ function handleReadMoreclick(btn) {
 
 }
 
+/* appends the next page of searchTerm to the search results and displays it */
+function nextPage(searchTerm) {
+  page++
+  fetchMovies(searchTerm, page)
+    .then(movies => {
+      searchResults.push(...movies)
+      displaySearchResults(searchResults)
+    })
+}
+
 /* This function is called when the user presses the search button.*/
-function searchForMovies(searchTerm) {
+function searchForMovies(newSearchTerm) {
   // show a loading spinner, etc.
   updateUIForLoading()
+
+  searchTerm = newSearchTerm
 
   fetchMovies(searchTerm)
     .then(movies => {
@@ -178,8 +206,6 @@ function updateUIforEmptyMovieList() {
     feedPlaceHolderStartEl.hidden = false
     feedPlaceHolderWatchlistEmptyEl.hidden = true
   }
-
-  console.log("updateUIforEmptyMovieLis:",feedPlaceHolderNotFoundEl.hidden,feedPlaceHolderStartEl.hidden,feedPlaceHolderWatchlistEmptyEl.hidden)
 }
 
 function updateUIForLoading() {
@@ -191,20 +217,23 @@ function updateUIForNoResults(searchTerm) {
   notFoundMsgEl.textContent = `Unable to find any movie with the term "${searchTerm}" in the title.`
   feedPlaceHolderStartEl.hidden = true
   feedPlaceHolderNotFoundEl.hidden = false
+  numResultsPEl.hidden = true
 }
 
-/* This function calls the omdb api with 'searchTerm' as a search Term and returns a promise that resolves to an array with the search results. 
+/* This function calls the omdb api with 'searchTerm' as a search Term and returns a promise that resolves to an array with the search results
+ * and sets totalSearchResults to totalResults. 
  * If no results were found an empty array is returned.
  * An entry of that array has the keys
  * Title , Poster, Ratings, imdbID, Runtime, Genre, Plot
  */
-function fetchMovies(searchTerm) {
-  const url = `https://www.omdbapi.com/?apikey=${apikey}&s=${encodeURIComponent(searchTerm)}`
+function fetchMovies(searchTerm, page=1) {
+  const url = `https://www.omdbapi.com/?apikey=${apikey}&s=${encodeURIComponent(searchTerm)}&page=${page}`
 
   return fetch(url)
     .then(res => res.json())
     .then(data => {
       if (data && data.Response === "True") {
+        totalSearchResults = data.totalResults;
         const detailPromises = data.Search.map(item =>
           fetchMovieDetails(item.imdbID)
             .then(movieDetails => ({
@@ -217,6 +246,7 @@ function fetchMovies(searchTerm) {
         return Promise.all(detailPromises);
       } else {
         // if any error occurs or no search results
+        totalResults = 0
         return [];
       }
     });
@@ -303,21 +333,26 @@ function displaySearchResults(searchResults) {
   feedPlaceHolderWatchlistEmptyEl.hidden = true
 
   renderFeed(feedHTMLArray)
-  // display movieFeed
-  //movieFeedEl.style.visibility = "hidden"
-  //movieFeedEl.innerHTML = feedHTMLArray.join(' ')
-  // clamp plot-description paragraphs to 3 lines
-  //const plotsArray = movieFeedEl.querySelectorAll('.card-plot')
-  //setTimeout(() =>  { plotsArray.forEach(p=>clampParagraphToLines(p)); movieFeedEl.style.visibility = "visible" },200)
-  
- }
-
+  // show total search results and show more button
+  if(!isWatchList)  {
+    numResultsPEl.textContent=`${searchResults.length} of ${totalSearchResults}`
+    numResultsPEl.hidden = false 
+    if(searchResults.length < totalSearchResults)
+      moreResultsBtnEl.hidden = false
+    else {
+      moreResultsBtnEl.hidden = true
+    }
+   } else {
+    numResultsPEl.hidden = true
+    moreResultsBtnEl.hidden = true
+    }
+}
 // wait until the next paint (double rAF to be extra safe)
 const nextPaint = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
 
 async function renderFeed(feedHTMLArray) {
   movieFeedEl.style.visibility = "hidden";
-  movieFeedEl.innerHTML = feedHTMLArray.join(" ");
+  movieFeedEl.innerHTML = feedHTMLArray.join(" ")
 
   // Let DOM & CSS apply
   await nextPaint();
