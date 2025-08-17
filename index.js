@@ -31,6 +31,7 @@ const searchFormEl = document.getElementById("search-form")
 const headerH1El = document.querySelector('.header-h1')
 const watchlistLinkEl = document.getElementById('watchlist-link')
 const feedPlaceHolderWatchlistEmptyEl = document.getElementById('feed-placeholder-watchlist-empty')
+const themeToggleEl = document.getElementById('theme-toggle')
 
 let isWatchList = false
 let searchResults = []
@@ -62,8 +63,19 @@ document.addEventListener("click", event=>{
   if(event.target.closest('.card-button')) {
     handleCardButtonClick(event.target.closest('.card-button'))
   }
+  if(event.target.matches('#theme-toggle')) {
+    handleThemeToggleClick()
+  }
 
 })
+
+function handleThemeToggleClick() {
+    html.classList.toggle("dark")
+    if(html.classList.contains("dark"))
+      themeToggleEl.textContent = '🌓'
+    else
+      themeToggleEl.textContent = '🌗'
+}
 
 function handleCardButtonClick(cardButtonEl) {
   const articleEl = cardButtonEl.closest('article')

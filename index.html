@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
+          <script>
+            // Dark Mode schon beim Laden setzen
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+        </script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
+        <button id="theme-toggle"  title="Toggle dark mode">🌗</button>
         <div class="centered-wrapper">
             <header>
                 <div class="header-top">

@@ -4,6 +4,7 @@
 
 :root {
     /* Light theme as default */
+    color-scheme: light;
     --bg-color: #1C1C1C;
     --feed-bg-color: white;
     --search-bg-color: white;
@@ -21,9 +22,11 @@
     --add-some-movies-color: #363636;
     --feed-placeholder-color: #DFDDDD;
     --film-icon-color: #854f4f;
+
 }
 
-.dark-theme {
+:root.dark {
+    color-scheme: dark;
     --feed-bg-color: #121212;
     --search-bg-color: #2E2E2F;
     --search-border-color: #2E2E2F;
@@ -223,7 +226,7 @@ main {
     object-fit: cover;
     background-color: var(--feed-bg-color);
     border-radius: 2.33px;
-
+    flex-shrink: 0;
 }
 
 
@@ -303,18 +306,6 @@ main {
     padding: 0;
     margin: 0;
     margin-top: 8px;
-    /*
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    */
-    /*
-    max-height: 4.2857em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    */
 }
 
 .card-description-cnt {
@@ -382,4 +373,20 @@ main {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+#theme-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: .5em;
+    z-index: 1;
+    border: none;
+    padding: .5rem .75rem;
+    background-color: transparent;
+}
+
+#theme-toggle:hover {
+    text-shadow: 5px 2px 10px yellow;
+    cursor: pointer;
 }
