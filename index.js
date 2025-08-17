@@ -75,6 +75,7 @@ function handleThemeToggleClick() {
       themeToggleEl.textContent = '🌓'
     else
       themeToggleEl.textContent = '🌗'
+
 }
 
 function handleCardButtonClick(cardButtonEl) {
