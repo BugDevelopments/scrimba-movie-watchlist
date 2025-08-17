@@ -21,8 +21,10 @@
 
 const watchlist = JSON.parse(localStorage.getItem("myWatchlist")) || []
 const html = document.documentElement
-//const apikey = '74fc7f86'
-const apikey = '9018b1f4'
+const apikey = '74fc7f86'
+//const apikey = '9018b1f4'
+//const apiKey = "17b90317"
+//const apiKey = "d7164f26"
 const movieFeedEl = document.getElementById("movie-feed")
 const feedPlaceHolderStartEl = document.getElementById("feed-placeholder-start")
 const feedPlaceHolderNotFoundEl = document.getElementById("feed-placeholder-not-found")
@@ -42,13 +44,6 @@ let searchResults = []
 let searchTerm = ""
 let totalSearchResults = 0
 let page=1
-
-//html.classList.toggle("dark-theme")
-
-
-/* searchResults = testData
-displaySearchResults(testData)
-*/
 
 searchFormEl.addEventListener("submit", e => {
   e.preventDefault()
@@ -125,7 +120,6 @@ function handleCardButtonClick(cardButtonEl) {
         `
       bookmarkEl.textContent = '🍿'
     }
-    //displaySearchResults(searchResults)  
   }
 
   localStorage.setItem("myWatchlist", JSON.stringify(watchlist))
@@ -182,6 +176,7 @@ function searchForMovies(newSearchTerm) {
   updateUIForLoading()
 
   searchTerm = newSearchTerm
+  page=1
 
   fetchMovies(searchTerm)
     .then(movies => {
@@ -218,6 +213,7 @@ function updateUIForNoResults(searchTerm) {
   feedPlaceHolderStartEl.hidden = true
   feedPlaceHolderNotFoundEl.hidden = false
   numResultsPEl.hidden = true
+  moreResultsBtnEl.hidden = true
 }
 
 /* This function calls the omdb api with 'searchTerm' as a search Term and returns a promise that resolves to an array with the search results
@@ -374,8 +370,6 @@ async function renderFeed(feedHTMLArray) {
 
   movieFeedEl.style.visibility = "visible";
 }
-
-
 
 /* returns the average score from the given array of ratings or N/A if it is empty */
 function getRatings(ratings) {
