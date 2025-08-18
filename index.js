@@ -497,7 +497,7 @@ window.addEventListener('touchmove', (e) => {
 }, { passive: true });
 
 window.addEventListener('touchend', () => {
-  if (atBottomOnStart && pulledUp) {
+  if  (!isWatchList && atBottomOnStart && pulledUp) {
     moreBtn.click();                            // Button „drücken“
   }
   atBottomOnStart = false;
