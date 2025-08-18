@@ -227,7 +227,7 @@ main {
 } 
 
 .poster {
-    width: 100x;
+    width: 100px;
     height: 150px;
     object-fit: cover;
     background-color: var(--feed-bg-color);
@@ -275,6 +275,7 @@ main {
     justify-content: space-between;
     align-items: start;
     gap: 0.5em;
+    flex-grow: 1;
 }
 
 .add-icon {
@@ -312,6 +313,7 @@ main {
 
 .card-description-cnt {
     position: relative;
+    flex-grow: 1;
 }
 
 .read-more-btn {
