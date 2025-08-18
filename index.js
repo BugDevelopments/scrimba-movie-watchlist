@@ -463,3 +463,43 @@ function escapeAttr(str) {
 function onWatchlist(movie) {
   return watchlist.find(item=>item.imdbID == movie.imdbID)
 }
+
+/* pull up reloader */
+
+const moreBtn = document.getElementById('more-results-btn');
+const SCROLLER = document.scrollingElement || document.documentElement;
+const THRESHOLD = 20;   // wie weit nach oben ziehen (px), bevor ausgelöst wird
+
+let startY = 0;
+let startX = 0;
+let atBottomOnStart = false;
+let pulledUp = false;
+
+function isAtBottom() {
+  return SCROLLER.scrollTop + window.innerHeight >= SCROLLER.scrollHeight - 2;
+}
+
+window.addEventListener('touchstart', (e) => {
+  const t = e.touches[0];
+  startY = t.clientY;
+  startX = t.clientX;
+  atBottomOnStart = isAtBottom();  // nur gültig, wenn man BEIM Start schon unten war
+  pulledUp = false;
+}, { passive: true });
+
+window.addEventListener('touchmove', (e) => {
+  if (!atBottomOnStart) return;                 // noch nicht unten → ignorieren
+  const t = e.touches[0];
+  const dy = startY - t.clientY;                // >0 heißt: Finger bewegt sich nach oben
+  const dx = Math.abs(t.clientX - startX);
+  if (dx > 24) return;                          // starke horizontale Geste ignorieren
+  if (dy > THRESHOLD) pulledUp = true;          // genug „hochgezogen“
+}, { passive: true });
+
+window.addEventListener('touchend', () => {
+  if (atBottomOnStart && pulledUp) {
+    moreBtn.click();                            // Button „drücken“
+  }
+  atBottomOnStart = false;
+  pulledUp = false;
+}, { passive: true });
