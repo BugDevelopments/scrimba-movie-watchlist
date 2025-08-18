@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>        
-        <button id="theme-toggle"  title="Toggle dark mode">🌗</button>
+        <button id="theme-toggle"  title="Toggle dark mode" aria-label="Toggle dark mode" aria-pressed="false">🌗</button>
         <div class="centered-wrapper">
             <header>
                 <div class="header-top">
@@ -23,13 +23,14 @@
                     </nav>
                 </div>
 
-                <form class="search-bar" id="search-form">
-                    <svg class="glass-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <form class="search-bar" id="search-form" role="search" aria-label="Movie search">
+                    <svg class="glass-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M6 2C3.79086 2 2 3.79086 2 6C2 8.20914 3.79086 10 6 10C8.20914 10 10 8.20914 10 6C10 3.79086 8.20914 2 6 2ZM0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6C12 7.29583 11.5892 8.49572 10.8907 9.47653L15.7071 14.2929C16.0976 14.6834 16.0976 15.3166 15.7071 15.7071C15.3166 16.0976 14.6834 16.0976 14.2929 15.7071L9.47653 10.8907C8.49572 11.5892 7.29583 12 6 12C2.68629 12 0 9.31371 0 6Z" fill="#9CA3AF"/>
                     </svg>
 
+                    <label for="search-input" class="sr-only">Search for a movie</label>
                     <input id="search-input" type="text" placeholder="Search for a movie" name="search-term">
-                    <button id="search-button"n>Search</button>
+                    <button id="search-button">Search</button>
                 </form>
             </header>
 
@@ -37,8 +38,8 @@
                 <section class="movie-feed" id="movie-feed" aria-label="Feed of the movie search results">
                 </section>
                 <div id="num-results-div">
-                    <p class="num-results" id="num-results-p" hidden><span class="wg-600">Results:</span> 0 of 0</p>
-                    <button class="more-results-btn" id="more-results-btn" hidden>Show more results</button>
+                    <p class="num-results" id="num-results-p" aria-live="polite" role="status" hidden><span class="wg-600">Results:</span> 0 of 0</p>
+                    <button class="more-results-btn" id="more-results-btn" aria-controls="movie-feed" hidden>Show more results</button>
                 </div>
                 <div class="feed-placeholder" id="feed-placeholder-start">
                     <svg width="70" height="62" viewBox="0 0 70 62" fill="none" xmlns="http://www.w3.org/2000/svg">
