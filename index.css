@@ -54,8 +54,8 @@ body {
     font-family: "Inter", sans-serif;
     background: linear-gradient(0, bisque 0%, var(--bg-color) 100%);
     background-repeat:  no-repeat;
-    height: 100%;
     background-attachment: fixed;
+    height: 100%;
     min-height: 100vh;
 }
 
@@ -64,7 +64,6 @@ body {
 }
 
 .centered-wrapper {
-    
     max-width: 800px;
     margin: auto auto;
 }
@@ -72,16 +71,17 @@ body {
 header {
     color: white;
     width: 100%;
-    height: 208px;
+    height: 158px;
     background-image: linear-gradient(rgba(28, 28, 28, 0.8), rgba(28, 28, 28, 0.8)), url(images/background.png); 
     background-size: 100%;
     background-position: 0 -150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 2.625em;
+    padding: 0 1.625em;
     position: relative;
 }
+
 
 .header-top {
     display: flex;
@@ -93,7 +93,7 @@ header {
 .header-h1 {
     margin: 0;
     padding: 0;
-    font-size: 2.675rem;
+    font-size: 2rem;
     font-weight: 800;
     letter-spacing: -4.5%;
 }
@@ -118,8 +118,8 @@ header a:hover {
     height: 2.375rem;
     position: absolute;
     bottom:0;
-    left: 2.625em;
-    right: 2.625em;
+    left: 1.625em;
+    right: 1.625em;
     transform: translateY(50%);
     
 }
@@ -158,8 +158,8 @@ header a:hover {
     font-size: 0.875rem;
     border: none;
     height: 100%;
-    padding-left: 2.75em;
-    padding-right: 34.5px;
+    padding-left: 1.75em;
+    padding-right: 1.4642em;
     color: var(--search-button-text-color);
     background-color: var(--search-button-bg-color);
     border-left: 1px solid var(--search-border-color);
@@ -168,6 +168,7 @@ header a:hover {
 
     transition: transform 150ms ease-out, filter 150ms ease-out;
 }
+
 
 #search-button:hover {
     cursor: pointer;
@@ -185,8 +186,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 40px;
-    min-height: calc(100vh - 208px - 50px); /* Höhe abzüglich Header und Footer */
+    padding-top: 1.5em;
+    min-height: calc(100vh - 158px); /* Höhe abzüglich Header und Footer */
 }
 
 .feed-placeholder {
@@ -213,19 +214,20 @@ main {
 .movie-card {
     box-sizing: border-box;
     border-bottom: 1px solid var(--movie-card-divider);
-    padding: 21px 0;
+    padding: 1.3125rem 0;
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: start;
-    gap: 21px;
-    width: 462px; 
+    gap: 1.3125rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     position: relative;
     /* width: 60vw; */
 } 
 
 .poster {
-    width: 100px;
+    width: 100x;
     height: 150px;
     object-fit: cover;
     background-color: var(--feed-bg-color);
@@ -269,10 +271,10 @@ main {
     color: var(--movie-data-color);
     font-size: 0.75rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: start;
-    align-items: center;
-    gap: 25px;
+    align-items: start;
+    gap: 0.5em;
 }
 
 .add-icon {
@@ -335,7 +337,6 @@ main {
 }
 
 
-
 #feed-placeholder-watchlist-empty > div {
     margin: 0;
     margin-bottom: 15px;
@@ -396,7 +397,6 @@ main {
 }
 
 .more-results-btn {
-     width: 462px; 
      font-family: "Inter", sans-serif;
      font-size: 0.875rem;
      font-weight: 700;
@@ -430,4 +430,49 @@ main {
 
 .wg-600 {
     font-weight: 600;
+}
+
+
+@media( min-width: 550px) {
+    header {
+        height: 208px;
+        padding: 0 2.625em;
+    }
+
+    .header-h1 {
+        font-size: 2.675rem;
+        font-weight: 800;
+        letter-spacing: -4.5%;
+    }
+
+    .search-bar {
+        left: 2.625em;
+        right: 2.625em;
+    }
+
+    #search-button {
+        padding-left: 2.75em;
+        padding-right: 2.4642em;
+    }
+
+    main {
+        min-height: calc(100vh - 208px);
+        padding-top: 2.5em;
+    }
+
+    .movie-card {
+        width: 462px; 
+    }
+
+    .more-results-btn {
+        width: 462px; 
+    }
+
+}
+
+@media (min-width: 321px) {
+    .card-moviedata{
+        flex-direction: row;
+        gap: 2.083em;
+    }
 }
